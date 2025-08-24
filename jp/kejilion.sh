@@ -1556,7 +1556,7 @@ fi
 
 add_yuming() {
 	  ip_address
-	  echo -e "最初にドメイン名をネイティブIPに解決します。${gl_huang}$ipv4_address  $ipv6_address${gl_bai}"
+	  echo -e "最初にドメイン名をローカルIPに解決します。${gl_huang}$ipv4_address  $ipv6_address${gl_bai}"
 	  read -e -p "IPまたは解決されたドメイン名を入力してください：" yuming
 }
 
@@ -1667,7 +1667,7 @@ cf_purge_cache() {
 	if [[ "$answer" == "y" ]]; then
 	  echo "CF情報が保存されます$CONFIG_FILE、後でCF情報を変更できます"
 	  read -e -p "API_TOKENを入力してください：" API_TOKEN
-	  read -e -p "CFユーザー名を入力してください：" EMAIL
+	  read -e -p "CFユーザ​​ー名を入力してください：" EMAIL
 	  read -e -p "ゾーン_id（スペースで区切られた複数）を入力してください。" -a ZONE_IDS
 
 	  mkdir -p /home/web/config/
@@ -2119,7 +2119,7 @@ web_security() {
 
 				  22)
 					  send_stats "5秒シールドでの高負荷"
-					  echo -e "${gl_huang}ウェブサイトは5分ごとに自動的に検出されます。高負荷が検出されると、シールドが自動的にオンになり、低負荷が5秒間自動的にオフになります。${gl_bai}"
+					  echo -e "${gl_huang}ウェブサイトは5分ごとに自動的に検出されます。高負荷の検出に達すると、シールドが自動的にオンになり、低負荷が5秒間自動的にオフになります。${gl_bai}"
 					  echo "--------------"
 					  echo "CFパラメーターを取得します："
 					  echo -e "CFバックグラウンドの右上隅に移動し、左側のAPIトークンを選択して、取得します${gl_huang}Global API Key${gl_bai}"
@@ -3318,7 +3318,7 @@ ldnmp_Proxy_backend() {
 
 	sed -i "s/yuming.com/$yuming/g" /home/web/conf.d/$yuming.conf
 
-	# 动态生成 upstream 配置
+	# 上流の構成を動的に生成します
 	upstream_servers=""
 	for server in $reverseproxy_port; do
 		upstream_servers="$upstream_servers    server $server;\n"
@@ -3691,7 +3691,7 @@ add_forwarding_service() {
 	read -e -p "イントラネットポートを入力してください：" local_port
 	read -e -p "外部ネットワークポートを入力してください：" remote_port
 
-	# 構成ファイルにユーザー入力を書き込みます
+	# ユーザー入力を構成ファイルに書き込みます
 	cat <<EOF >> /home/frp/frpc.toml
 [$service_name]
 type = ${service_type}
@@ -3811,7 +3811,7 @@ get_frp_ports() {
 
 # アクセスアドレスを生成します
 generate_access_urls() {
-	# 最初にすべてのポートを取得します
+	# 首先获取所有端口
 	get_frp_ports
 
 	# 8055/8056以外のポートがあるかどうかを確認してください
@@ -3878,7 +3878,7 @@ frps_panel() {
 		check_frp_app
 		check_docker_image_update $docker_name
 		echo -e "FRPサーバー$check_frp $update_status"
-		echo "FRPイントラネット浸透サービス環境を構築して、パブリックIPなしでインターネットにデバイスを公開する"
+		echo "FRPイントラネット侵入サービス環境を構築して、パブリックIPなしでインターネットにデバイスを公開する"
 		echo "公式ウェブサイトの紹介：https：//github.com/fatedier/frp/"
 		echo "ビデオ教育：https：//www.bilibili.com/video/bv1ymw6e2ewl?t=124.0"
 		if [ -d "/home/frp/" ]; then
@@ -3893,7 +3893,7 @@ frps_panel() {
 		echo "------------------------"
 		echo "7. IP+ポートアクセスを許可8。BlockIP+ポートアクセス"
 		echo "------------------------"
-		echo "00。サービスのステータスを更新します0。前のメニューに戻ります"
+		echo "00. 刷新服务状态         0. 返回上一级选单"
 		echo "------------------------"
 		read -e -p "あなたの選択を入力してください：" choice
 		case $choice in
@@ -3930,7 +3930,7 @@ frps_panel() {
 				echo "ドメイン名アクセスへの逆イントラネット侵入サービス"
 				send_stats "FRP外部ドメイン名へのアクセス"
 				add_yuming
-				read -e -p "イントラネット侵入サービスポートを入力してください：" frps_port
+				read -e -p "请输入你的内网穿透服务端口: " frps_port
 				ldnmp_Proxy ${yuming} 127.0.0.1 ${frps_port}
 				block_host_port "$frps_port" "$ipv4_address"
 				;;
@@ -3947,7 +3947,7 @@ frps_panel() {
 
 			8)
 				send_stats "IPアクセスをブロックします"
-				echo "アンチジェネレーションドメイン名にアクセスした場合、この関数を使用して、より安全なIP+ポートアクセスをブロックできます。"
+				echo "アンチジェネレーションドメイン名にアクセスした場合は、この関数を使用して、より安全なIP+ポートアクセスをブロックします。"
 				read -e -p "ブロックする必要があるポートを入力してください。" frps_port
 				block_host_port "$frps_port" "$ipv4_address"
 				;;
@@ -4520,7 +4520,7 @@ echo -e "${gl_lv}ルートログインがセットアップされます！${gl_b
 
 root_use() {
 clear
-[ "$EUID" -ne 0 ] && echo -e "${gl_huang}ヒント：${gl_bai}この機能では、ルートユーザーを実行する必要があります！" && break_end && kejilion
+[ "$EUID" -ne 0 ] && echo -e "${gl_huang}ヒント：${gl_bai}この機能には、ルートユーザーを実行する必要があります！" && break_end && kejilion
 }
 
 
@@ -5620,7 +5620,7 @@ linux_trash() {
 		sed -i '/alias rm/d' "$bashrc_profile"
 		echo "alias rm='trash-put'" >> "$bashrc_profile"
 		source "$bashrc_profile"
-		echo "リサイクルビンが有効になり、削除されたファイルがリサイクルビンに移動されます。"
+		echo "回收站已启用，删除的文件将移至回收站。"
 		sleep 2
 		;;
 	  2)
@@ -5709,7 +5709,7 @@ create_backup() {
 	if [ $? -eq 0 ]; then
 		echo "バックアップは正常に作成されました：$BACKUP_DIR/$BACKUP_NAME"
 	else
-		echo "备份创建失败！"
+		echo "バックアップの作成に失敗しました！"
 		exit 1
 	fi
 }
@@ -5876,7 +5876,7 @@ delete_connection() {
 
 	local connection=$(sed -n "${num}p" "$CONFIG_FILE")
 	if [[ -z "$connection" ]]; then
-		echo "エラー：対応する接続は見つかりませんでした。"
+		echo "エラー：対応する接続​​は見つかりませんでした。"
 		return
 	fi
 
@@ -5898,7 +5898,7 @@ use_connection() {
 
 	local connection=$(sed -n "${num}p" "$CONFIG_FILE")
 	if [[ -z "$connection" ]]; then
-		echo "エラー：対応する接続は見つかりませんでした。"
+		echo "エラー：対応する接続​​は見つかりませんでした。"
 		return
 	fi
 
@@ -6973,7 +6973,7 @@ linux_docker() {
 					  3)
 						  send_stats "インターネットに参加してください"
 						  read -e -p "出口ネットワーク名：" dockernetwork
-						  read -e -p "これらのコンテナはネットワークを出ます（複数のコンテナ名はスペースで区切られています）：" dockernames
+						  read -e -p "これらのコンテナはネットワークを終了します（複数のコンテナ名はスペースで区切られています）：" dockernames
 
 						  for dockername in $dockernames; do
 							  docker network disconnect $dockernetwork $dockername
@@ -7165,7 +7165,7 @@ linux_test() {
 	  case $sub_choice in
 		  1)
 			  clear
-			  send_stats "CHATGPTステータス検出のロックを解除します"
+			  send_stats "CHATGPTはステータス検出のロックを解除します"
 			  bash <(curl -Ls https://cdn.jsdelivr.net/gh/missuo/OpenAI-Checker/openai.sh)
 			  ;;
 		  2)
@@ -7249,7 +7249,7 @@ linux_test() {
 
 		  18)
 			  clear
-			  send_stats "网络质量测试脚本"
+			  send_stats "ネットワーク品質のテストスクリプト"
 			  bash <(curl -sL Net.Check.Place)
 			  ;;
 
@@ -7918,7 +7918,7 @@ linux_ldnmp() {
 			  ;;
 		  2)
 			  echo "データベースのバックアップは、.GZ-endコンプレッションパッケージである必要があります。 Pagoda/1panelのバックアップデータのインポートをサポートするために、/home/directoryに入れてください。"
-			  read -e -p "ダウンロードリンクを入力して、バックアップデータをリモートでダウンロードすることもできます。 Enterを直接押してリモートダウンロードをスキップします。" url_download_db
+			  read -e -p "ダウンロードリンクを入力して、バックアップデータをリモートでダウンロードすることもできます。 Enterを直接押して、リモートダウンロードをスキップします：" url_download_db
 
 			  cd /home/
 			  if [ -n "$url_download_db" ]; then
@@ -8500,7 +8500,7 @@ linux_panel() {
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}41.  ${color41}マウス管理パネル${gl_kjlan}42.  ${color42}NEXTEリモート接続ツール"
 	  echo -e "${gl_kjlan}43.  ${color43}Rustdeskリモートデスク（サーバー）${gl_huang}★${gl_bai}          ${gl_kjlan}44.  ${color44}Rustdeskリモートデスク（リレー）${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}45.  ${color45}Docker加速ステーション${gl_kjlan}46.  ${color46}GitHub加速ステーション${gl_huang}★${gl_bai}"
+	  echo -e "${gl_kjlan}45.  ${color45}Docker加速ステーション${gl_kjlan}46.  ${color46}GitHubアクセラレーションステーション${gl_huang}★${gl_bai}"
 	  echo -e "${gl_kjlan}47.  ${color47}プロメテウス監視${gl_kjlan}48.  ${color48}プロメテウス（ホスト監視）"
 	  echo -e "${gl_kjlan}49.  ${color49}プロメテウス（コンテナ監視）${gl_kjlan}50.  ${color50}補充監視ツール"
 	  echo -e "${gl_kjlan}------------------------"
@@ -8512,7 +8512,7 @@ linux_panel() {
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}61.  ${color61}オンライン翻訳サーバー${gl_kjlan}62.  ${color62}Ragflow Big Model Knowledge Base"
 	  echo -e "${gl_kjlan}63.  ${color63}OpenWebui自己ホストAIプラットフォーム${gl_huang}★${gl_bai}             ${gl_kjlan}64.  ${color64}IT-Toolsツールボックス"
-	  echo -e "${gl_kjlan}65.  ${color65}N8Nオートメーションワークフロープラットフォーム${gl_huang}★${gl_bai}               ${gl_kjlan}66.  ${color66}yt-dlp视频下载工具"
+	  echo -e "${gl_kjlan}65.  ${color65}N8Nオートメーションワークフロープラットフォーム${gl_huang}★${gl_bai}               ${gl_kjlan}66.  ${color66}YT-DLPビデオダウンロードツール"
 	  echo -e "${gl_kjlan}67.  ${color67}DDNS-GOダイナミックDNS管理ツール${gl_huang}★${gl_bai}            ${gl_kjlan}68.  ${color68}AllinsSL証明書管理プラットフォーム"
 	  echo -e "${gl_kjlan}69.  ${color69}SFTPGOファイル転送ツール${gl_kjlan}70.  ${color70}アストロボットチャットロボットフレームワーク"
 	  echo -e "${gl_kjlan}------------------------"
@@ -11509,7 +11509,7 @@ EOF
 				echo "3。日本の東京時間4。韓国のソウル時間"
 				echo "5。シンガポール時間6。インドのコルカタ時間"
 				echo "7。アラブ首長国連邦のドバイ時間8。オーストラリアのシドニー時間"
-				echo "9。タイのバンコクでの時間"
+				echo "9。バンコク・タイム、タイ"
 				echo "------------------------"
 				echo "ヨーロッパ"
 				echo "11。英国のロンドン時間12。パリの時間フランスの時間"
@@ -11680,7 +11680,7 @@ EOF
 								  (crontab -l ; echo "0 0 * * $weekday $newquest") | crontab - > /dev/null 2>&1
 								  ;;
 							  3)
-								  read -e -p "毎日タスクを実行する時間を選択しますか？ （時間、0-23）：" hour
+								  read -e -p "毎日タスクを実行する時期を選択しますか？ （時間、0-23）：" hour
 								  (crontab -l ; echo "0 $hour * * * $newquest") | crontab - > /dev/null 2>&1
 								  ;;
 							  4)
@@ -11735,7 +11735,7 @@ EOF
 
 						  ;;
 					  2)
-						  read -e -p "削除する必要があるコンテンツの解析のキーワードを入力してください。" delhost
+						  read -e -p "削除する必要があるコンテンツを解析するために、キーワードを入力してください。" delhost
 						  sed -i "/$delhost/d" /etc/hosts
 						  send_stats "ローカルホストの解析と削除"
 						  ;;
@@ -11870,7 +11870,7 @@ EOF
 					crontab -l | grep -v '~/Limiting_Shut_down.sh' | crontab -
 					crontab -l | grep -v 'reboot' | crontab -
 					rm ~/Limiting_Shut_down.sh
-					echo "電流制限シャットダウン機能はオフになっています"
+					echo "現在の制限シャットダウン関数はオフになっています"
 					;;
 				  *)
 					break
