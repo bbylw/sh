@@ -534,17 +534,17 @@ while true; do
 			;;
 		3)
 			send_stats "지정된 컨테이너 중지"
-			read -e -p "컨테이너 이름을 입력하세요(여러 컨테이너 이름을 공백으로 구분하세요):" dockername
+			read -e -p "컨테이너 이름을 입력하세요(여러 컨테이너 이름을 공백으로 구분하세요)." dockername
 			docker stop $dockername
 			;;
 		4)
 			send_stats "지정된 컨테이너 삭제"
-			read -e -p "컨테이너 이름을 입력하세요(여러 컨테이너 이름을 공백으로 구분하세요):" dockername
+			read -e -p "컨테이너 이름을 입력하세요(여러 컨테이너 이름을 공백으로 구분하세요)." dockername
 			docker rm -f $dockername
 			;;
 		5)
 			send_stats "지정된 컨테이너를 다시 시작합니다."
-			read -e -p "컨테이너 이름을 입력하세요(여러 컨테이너 이름을 공백으로 구분하세요):" dockername
+			read -e -p "컨테이너 이름을 입력하세요(여러 컨테이너 이름을 공백으로 구분하세요)." dockername
 			docker restart $dockername
 			;;
 		6)
@@ -2749,7 +2749,7 @@ while true; do
 	 case $choice in
 		1)
 			check_disk_space $app_size
-			read -e -p "애플리케이션 외부 서비스 포트를 입력하고 Enter 키를 누르면 기본적으로 사용됩니다.${docker_port}포트:" app_port
+			read -e -p "애플리케이션 외부 서비스 포트를 입력하고 Enter를 누르면 기본적으로 사용됩니다.${docker_port}포트:" app_port
 			local app_port=${app_port:-${docker_port}}
 			local docker_port=$app_port
 
@@ -2862,7 +2862,7 @@ docker_app_plus() {
 		case $choice in
 			1)
 				check_disk_space $app_size
-				read -e -p "애플리케이션 외부 서비스 포트를 입력하고 Enter 키를 누르면 기본적으로 사용됩니다.${docker_port}포트:" app_port
+				read -e -p "애플리케이션 외부 서비스 포트를 입력하고 Enter를 누르면 기본적으로 사용됩니다.${docker_port}포트:" app_port
 				local app_port=${app_port:-${docker_port}}
 				local docker_port=$app_port
 				install jq
@@ -3947,7 +3947,7 @@ frps_panel() {
 
 			8)
 				send_stats "IP 접근 차단"
-				echo "역방향 도메인 이름 접근을 가지고 있는 경우, 이 기능을 사용하면 IP+포트 접근을 차단할 수 있어 더욱 안전합니다."
+				echo "역방향 도메인 이름 접근이 있는 경우, 이 기능을 사용하면 IP+포트 접근을 차단할 수 있어 더욱 안전합니다."
 				read -e -p "차단할 포트를 입력하세요:" frps_port
 				block_host_port "$frps_port" "$ipv4_address"
 				;;
@@ -5097,7 +5097,7 @@ clamav_freshclam() {
 
 clamav_scan() {
 	if [ $# -eq 0 ]; then
-		echo "스캔할 디렉터리를 지정하세요."
+		echo "스캔할 디렉터리를 지정하십시오."
 		return
 	fi
 
@@ -6328,7 +6328,7 @@ run_task() {
 	else
 		echo "동기화에 실패했습니다! 다음 사항을 확인하세요."
 		echo "1. 네트워크 연결이 정상인가요?"
-		echo "2. 원격 호스트에 접근할 수 있나요?"
+		echo "2. 원격 호스트에 접근 가능한지 여부"
 		echo "3. 인증정보가 정확합니까?"
 		echo "4. 로컬 및 원격 디렉터리에 올바른 액세스 권한이 있습니까?"
 	fi
@@ -8709,7 +8709,7 @@ linux_panel() {
 				check_docker_app
 				check_docker_image_update $docker_name
 				clear
-				echo -e "네자 모니터링$check_docker $update_status"
+				echo -e "나타 모니터링$check_docker $update_status"
 				echo "오픈 소스, 가볍고 사용하기 쉬운 서버 모니터링 및 운영 및 유지 관리 도구"
 				echo "공식 웹사이트 구축 문서: https://nezha.wiki/guide/dashboard.html"
 				if docker ps -a --format '{{.Names}}' | grep -q "$docker_name"; then
@@ -11582,7 +11582,7 @@ EOF
 					  echo "$new_hostname" > /etc/hostname
 					  hostname "$new_hostname"
 				  else
-					  # Debian, Ubuntu, CentOS 등과 같은 기타 시스템
+					  # Debian, Ubuntu, CentOS 등과 같은 다른 시스템
 					  hostnamectl set-hostname "$new_hostname"
 					  sed -i "s/$current_hostname/$new_hostname/g" /etc/hostname
 					  systemctl restart systemd-hostnamed
@@ -12492,7 +12492,7 @@ run_commands_on_servers() {
 		local username=${SERVER_ARRAY[i+3]}
 		local password=${SERVER_ARRAY[i+4]}
 		echo
-		echo -e "${gl_huang}연결하다$name ($hostname)...${gl_bai}"
+		echo -e "${gl_huang}연결 대상$name ($hostname)...${gl_bai}"
 		# sshpass -p "$password" ssh -o StrictHostKeyChecking=no "$username@$hostname" -p "$port" "$1"
 		sshpass -p "$password" ssh -t -o StrictHostKeyChecking=no "$username@$hostname" -p "$port" "$1"
 	done

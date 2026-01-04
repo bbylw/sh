@@ -888,12 +888,12 @@ open_port() {
 
 		if ! iptables -C INPUT -p udp --dport $port -j ACCEPT 2>/dev/null; then
 			iptables -I INPUT 1 -p udp --dport $port -j ACCEPT
-			echo "ポートがオープンされました$port"
+			echo "ポートがオープンしました$port"
 		fi
 	done
 
 	save_iptables_rules
-	send_stats "ポートがオープンされました"
+	send_stats "ポートがオープンしました"
 }
 
 
@@ -1740,7 +1740,7 @@ nginx_waf() {
 
 	# モードパラメータに従ってWAFをオンにするかオフにするかを決定します。
 	if [ "$mode" == "on" ]; then
-		# WAF をオンにする: コメントを削除する
+		# 开启 WAF：去掉注释
 		sed -i 's|# load_module /etc/nginx/modules/ngx_http_modsecurity_module.so;|load_module /etc/nginx/modules/ngx_http_modsecurity_module.so;|' /home/web/nginx.conf > /dev/null 2>&1
 		sed -i 's|^\(\s*\)# modsecurity on;|\1modsecurity on;|' /home/web/nginx.conf > /dev/null 2>&1
 		sed -i 's|^\(\s*\)# modsecurity_rules_file /etc/nginx/modsec/modsecurity.conf;|\1modsecurity_rules_file /etc/nginx/modsec/modsecurity.conf;|' /home/web/nginx.conf > /dev/null 2>&1
@@ -2118,7 +2118,7 @@ web_security() {
 					  ;;
 
 				  22)
-					  send_stats "高負荷により5秒シールドが可能"
+					  send_stats "高負荷で5秒シールド可能"
 					  echo -e "${gl_huang}Web サイトは 5 分ごとに自動的に検出します。高負荷を検出すると自動的にシールドが開き、低負荷を検出すると5秒間自動的にシールドが閉じます。${gl_bai}"
 					  echo "--------------"
 					  echo "CFパラメータを取得します。"
@@ -2239,7 +2239,7 @@ web_optimization() {
 			  send_stats "LDNMP環境の最適化"
 			  echo -e "LDNMP環境の最適化${gl_lv}${mode_info}${gzip_status}${br_status}${zstd_status}${gl_bai}"
 			  echo "------------------------"
-			  echo "1.スタンダードモード 2.ハイパフォーマンスモード（2H4G以上推奨）"
+			  echo "1.スタンダードモード 2.ハイパフォーマンスモード(2H4G以上推奨)"
 			  echo "------------------------"
 			  echo "3. gzip 圧縮をオンにする 4. gzip 圧縮をオフにする"
 			  echo "5. br 圧縮をオンにする 6. br 圧縮をオフにする"
@@ -2447,7 +2447,7 @@ check_docker_image_update() {
 	# 公式画像のサポートを追加
 	[[ "$image_repo" != */* ]] && image_repo="library/$image_repo"
 
-	# Docker Hub APIからイメージのリリース時刻を取得する
+	# Docker Hub APIからイメージのリリース時間を取得する
 	local hub_info=$(curl -s "https://hub.docker.com/v2/repositories/$image_repo/tags/$image_tag")
 	local last_updated=$(echo "$hub_info" | jq -r '.last_updated' 2>/dev/null)
 
@@ -4354,7 +4354,7 @@ while true; do
 	echo "2.国内DNSの最適化:"
 	echo " v4: 223.5.5.5 183.60.83.19"
 	echo " v6: 2400:3200::1 2400:da00::6666"
-	echo "3. DNS 設定を手動で編集する"
+	echo "3. DNS 構成を手動で編集する"
 	echo "------------------------"
 	echo "0. 前のメニューに戻る"
 	echo "------------------------"
@@ -4513,7 +4513,7 @@ sed -i 's/^\s*#\?\s*PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_confi
 sed -i 's/^\s*#\?\s*PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config;
 rm -rf /etc/ssh/sshd_config.d/* /etc/ssh/ssh_config.d/*
 restart_ssh
-echo -e "${gl_lv}ROOTログインの設定は完了です！${gl_bai}"
+echo -e "${gl_lv}ROOTログインの設定が完了しました！${gl_bai}"
 
 }
 
@@ -5174,7 +5174,7 @@ clamav() {
 						;;
 					3)
 					  send_stats "カスタムディレクトリスキャン"
-					  read -e -p "スキャンするディレクトリをスペースで区切って入力してください (例: /etc /var /usr /home /root)。" directories
+					  read -e -p "スキャンするディレクトリをスペースで区切って入力してください (例: /etc /var /usr /home /root):" directories
 					  install_docker
 					  clamav_freshclam
 					  clamav_scan $directories
@@ -5369,7 +5369,7 @@ Kernel_optimize() {
 	  echo -e "${gl_huang}ヒント：${gl_bai}本番環境では注意して使用してください。"
 	  echo "--------------------"
 	  echo "1. ハイパフォーマンス最適化モード: システムのパフォーマンスを最大化し、ファイル記述子、仮想メモリ、ネットワーク設定、キャッシュ管理、CPU 設定を最適化します。"
-	  echo "2. バランスのとれた最適化モード: パフォーマンスとリソース消費のバランスをとり、日常的な使用に適しています。"
+	  echo "2. バランスのとれた最適化モード: パフォーマンスとリソース消費のバランスをとり、日常の使用に適しています。"
 	  echo "3. Web サイト最適化モード: Web サイトサーバーを最適化して、同時接続処理能力、応答速度、全体的なパフォーマンスを向上させます。"
 	  echo "4. ライブ ブロードキャスト最適化モード: ライブ ストリーミングの特別なニーズを最適化し、遅延を削減し、送信パフォーマンスを向上させます。"
 	  echo "5. ゲームサーバー最適化モード: ゲームサーバーを最適化して、同時処理能力と応答速度を向上させます。"
@@ -6328,7 +6328,7 @@ run_task() {
 	else
 		echo "同期に失敗しました!以下の点をご確認ください。"
 		echo "1. ネットワーク接続は正常ですか?"
-		echo "2. リモート ホストにアクセスできますか?"
+		echo "2. リモートホストにアクセスできるかどうか"
 		echo "3. 認証情報は正しいですか?"
 		echo "4. ローカル ディレクトリとリモート ディレクトリには正しいアクセス許可がありますか?"
 	fi
@@ -10616,7 +10616,7 @@ linux_panel() {
 
 			docker_rum() {
 
-				read -e -p "設定${docker_name}ログインユーザー名：" app_use
+				read -e -p "設定${docker_name}ログインユーザー名:" app_use
 				read -e -p "設定${docker_name}ログインパスワード:" app_passwd
 
 				docker run -d \
@@ -11509,7 +11509,7 @@ EOF
 				echo "3. 東京、日本時間 4. ソウル、韓国時間"
 				echo "5. シンガポール時間 6. インド、コルカタ時間"
 				echo "7. アラブ首長国連邦、ドバイ時間 8. オーストラリア、シドニー時間"
-				echo "9. タイ・バンコク時間"
+				echo "9.タイ・バンコク時間"
 				echo "------------------------"
 				echo "ヨーロッパ"
 				echo "11. ロンドン、イギリス時間 12. パリ、フランス時間"
@@ -12492,7 +12492,7 @@ run_commands_on_servers() {
 		local username=${SERVER_ARRAY[i+3]}
 		local password=${SERVER_ARRAY[i+4]}
 		echo
-		echo -e "${gl_huang}に接続する$name ($hostname)...${gl_bai}"
+		echo -e "${gl_huang}に接続します$name ($hostname)...${gl_bai}"
 		# sshpass -p "$password" ssh -o StrictHostKeyChecking=no "$username@$hostname" -p "$port" "$1"
 		sshpass -p "$password" ssh -t -o StrictHostKeyChecking=no "$username@$hostname" -p "$port" "$1"
 	done
@@ -12521,7 +12521,7 @@ while true; do
 	  echo -e "${gl_kjlan}------------------------${gl_bai}"
 	  echo -e "${gl_kjlan}サーバーリスト管理${gl_bai}"
 	  echo -e "${gl_kjlan}1.  ${gl_bai}サーバーの追加${gl_kjlan}2.  ${gl_bai}サーバーの削除${gl_kjlan}3.  ${gl_bai}サーバーの編集"
-	  echo -e "${gl_kjlan}4.  ${gl_bai}バックアップクラスタ${gl_kjlan}5.  ${gl_bai}クラスターを復元する"
+	  echo -e "${gl_kjlan}4.  ${gl_bai}バックアップクラスター${gl_kjlan}5.  ${gl_bai}クラスターを復元する"
 	  echo -e "${gl_kjlan}------------------------${gl_bai}"
 	  echo -e "${gl_kjlan}タスクをバッチで実行する${gl_bai}"
 	  echo -e "${gl_kjlan}11. ${gl_bai}テクノロジ ライオン スクリプトをインストールする${gl_kjlan}12. ${gl_bai}アップデートシステム${gl_kjlan}13. ${gl_bai}システムをクリーンアップする"
@@ -12559,7 +12559,7 @@ while true; do
 
 		  4)
 			  clear
-			  send_stats "バックアップクラスター"
+			  send_stats "バックアップクラスタ"
 			  echo -e "変更してください${gl_huang}/root/cluster/servers.py${gl_bai}ファイルをダウンロードしてバックアップを完了してください。"
 			  break_end
 			  ;;
@@ -12862,7 +12862,7 @@ echo "docker イメージ管理 k docker img |k docker image"
 echo "LDNMP サイト管理 k Web"
 echo "LDNMP キャッシュのクリーニング k Web キャッシュ"
 echo "WordPress をインストールします。 kワードプレス | k wp xxx.com"
-echo "リバース プロキシをインストールします k fd |k rp |k リバース プロキシ |k fd xxx.com"
+echo "リバース プロキシ k fd |k rp |k リバース プロキシ |k fd xxx.com をインストールします。"
 echo "ロード バランシングのインストール k ロード バランシング |k ロード バランシング"
 echo "ファイアウォール パネル k fhq |k ファイアウォール"
 echo "ポートを開きます k dkdk 8080 |k ポートを開きます 8080"
